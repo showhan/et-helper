@@ -1,9 +1,6 @@
 <?php
 /**
- * Plugin Name: Divi JSON Parser
  * Description: Convert embedded Divi block objects inside WP block strings into a merged JSON, and output raw CSS from any `css` subtrees.
- * Version:     1.4.1
- * Author:      Your Name
  */
 
 if (!defined('ABSPATH')) exit;
