@@ -16,7 +16,7 @@ class ET_Helper {
     const NONCE_DELETE     = 'et_delete_log_nonce';
 
     public function __construct() {
-        add_action( 'init', [ $this, 'maybe_hide_debug_display' ], 0 );
+        add_action( 'muplugins_loaded', [ $this, 'maybe_hide_debug_display' ], 0 );
         add_action( 'admin_bar_menu', [ $this, 'add_admin_bar_nodes' ], 90 );
         add_action( 'admin_footer', [ $this, 'output_hidden_forms' ] );
         add_action( 'wp_footer', [ $this, 'output_hidden_forms' ] );
@@ -33,7 +33,8 @@ class ET_Helper {
         if ( get_option( self::OPT_HIDE_DISPLAY ) ) {
             @ini_set( 'display_errors', '0' );
             @ini_set( 'display_startup_errors', '0' );
-            error_reporting( E_ALL & ~E_NOTICE & ~E_WARNING & ~E_DEPRECATED );
+            error_reporting( E_ALL & ~E_NOTICE & ~E_USER_NOTICE & ~E_WARNING & ~E_USER_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED );
+            error_reporting(0);
         }
     }
 
