@@ -11,6 +11,7 @@ class ET_Helper_Divi_JSON_Parser {
     public function __construct() {
         add_action('admin_init', [$this, 'handle_upload']);
         add_action('admin_post_djc_download_json', [$this, 'handle_download']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_assets']);
     }
 
     public function add_menu() {
@@ -285,6 +286,30 @@ class ET_Helper_Divi_JSON_Parser {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
+    public function enqueue_admin_assets($hook) {
+        if ('tools_page_' . self::MENU_SLUG !== $hook) {
+            return;
+        }
+
+        $plugin_dir = plugin_dir_path(dirname(__FILE__));
+        $plugin_url = plugin_dir_url(dirname(__FILE__));
+
+        // CodeMirror CSS
+        wp_enqueue_style('codemirror-css', 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css');
+        wp_enqueue_style('codemirror-theme-monokai', 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css');
+
+        // Custom admin styles (only if file exists)
+        $css_file = $plugin_dir . 'assets/css/admin-styles.css';
+        if (file_exists($css_file)) {
+            wp_enqueue_style(
+                'et-helper-admin-styles',
+                $plugin_url . 'assets/css/admin-styles.css',
+                [],
+                filemtime($css_file)
+            );
+        }
+    }
+
     public function render_page() {
         if (!current_user_can('manage_options')) wp_die('Insufficient permissions.');
 
@@ -299,7 +324,7 @@ class ET_Helper_Divi_JSON_Parser {
                 <li><strong>Full merged JSON</strong> (<code>{ blocks, css }</code>)</li>
             </ol>
 
-            <form method="post" enctype="multipart/form-data" style="margin-top:1em;">
+            <form method="post" enctype="multipart/form-data" class="djc-form">
                 <?php wp_nonce_field('djc_upload', 'djc_nonce'); ?>
                 <input type="file" name="djc_file" accept=".json,.txt" required />
                 <p class="submit">
@@ -308,36 +333,178 @@ class ET_Helper_Divi_JSON_Parser {
             </form>
 
             <?php if ($result): ?>
-                <?php if (!empty($result['error'])): ?>
+                <?php if (!empty($result['error'])):
+?>
                     <div class="notice notice-error"><p><strong>Error:</strong> <?php echo esc_html($result['error']); ?></p></div>
                 <?php else: ?>
-                    <div class="notice notice-success"><p>Conversion successful.</p></div>
+                    <div class="djc-results-container">
+                        <div class="djc-success-message">
+                            <span class="dashicons dashicons-yes-alt"></span>
+                            <strong>Conversion successful!</strong>
+                        </div>
 
-                    <h2 style="margin-top:20px;">Only CSS</h2>
-                    <textarea style="width:100%;height:340px;font-family:Menlo,Consolas,monospace;"><?php echo esc_textarea($result['css_text']); ?></textarea>
-                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:8px;">
-                        <?php
-                        $download_key_css = 'djc_download_' . wp_generate_password(12, false);
-                        set_transient($download_key_css, $result['css_text'], 180);
-                        ?>
-                        <input type="hidden" name="action" value="djc_download_json">
-                        <input type="hidden" name="key" value="<?php echo esc_attr($download_key_css); ?>">
-                        <input type="hidden" name="filename" value="<?php echo esc_attr(str_replace('.json', '.css', $result['filename'])); ?>">
-                        <button type="submit" class="button">Download CSS</button>
-                    </form>
+                        <div class="djc-result-block">
+                            <div class="djc-result-header">
+                                <h2>Only CSS</h2>
+                                <div class="djc-actions">
+                                    <button type="button" class="button djc-copy-btn" data-target="css">
+                                        <span class="dashicons dashicons-clipboard"></span> Copy
+                                    </button>
+                                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display: inline;">
+                                        <?php
+                                        $download_key_css = 'djc_download_' . wp_generate_password(12, false);
+                                        set_transient($download_key_css, $result['css_text'], 180);
+                                        ?>
+                                        <input type="hidden" name="action" value="djc_download_json">
+                                        <input type="hidden" name="key" value="<?php echo esc_attr($download_key_css); ?>">
+                                        <input type="hidden" name="filename" value="<?php echo esc_attr(str_replace('.json', '.css', $result['filename'])); ?>">
+                                        <button type="submit" class="button djc-download-btn">
+                                            <span class="dashicons dashicons-download"></span> Download
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="djc-css-output"></div>
+                        </div>
 
-                    <h2 style="margin-top:24px;">Full merged JSON</h2>
-                    <textarea style="width:100%;height:280px;font-family:Menlo,Consolas,monospace;"><?php echo esc_textarea($result['merged_json']); ?></textarea>
-                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:8px;">
-                        <?php
-                        $download_key_full = 'djc_download_' . wp_generate_password(12, false);
-                        set_transient($download_key_full, $result['merged_json'], 180);
-                        ?>
-                        <input type="hidden" name="action" value="djc_download_json">
-                        <input type="hidden" name="key" value="<?php echo esc_attr($download_key_full); ?>">
-                        <input type="hidden" name="filename" value="<?php echo esc_attr($result['filename']); ?>">
-                        <button type="submit" class="button">Download Full JSON</button>
-                    </form>
+                        <div class="djc-result-block">
+                            <div class="djc-result-header">
+                                <h2>Full merged JSON</h2>
+                                <div class="djc-actions">
+                                    <button type="button" class="button djc-copy-btn" data-target="json">
+                                        <span class="dashicons dashicons-clipboard"></span> Copy
+                                    </button>
+                                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display: inline;">
+                                        <?php
+                                        $download_key_full = 'djc_download_' . wp_generate_password(12, false);
+                                        set_transient($download_key_full, $result['merged_json'], 180);
+                                        ?>
+                                        <input type="hidden" name="action" value="djc_download_json">
+                                        <input type="hidden" name="key" value="<?php echo esc_attr($download_key_full); ?>">
+                                        <input type="hidden" name="filename" value="<?php echo esc_attr($result['filename']); ?>">
+                                        <button type="submit" class="button djc-download-btn">
+                                            <span class="dashicons dashicons-download"></span> Download
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="djc-json-output"></div>
+                        </div>
+                    </div>
+
+                    <!-- Load CodeMirror CSS -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+                    
+                    <!-- Load CodeMirror Scripts -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+                    
+                    <script>
+                        (function() {
+                            var cssContent = <?php echo json_encode($result['css_text']); ?>;
+                            var jsonContent = <?php echo json_encode($result['merged_json']); ?>;
+                            
+                            function initCodeMirror() {
+                                if (typeof CodeMirror === 'undefined') {
+                                    console.error('CodeMirror is not loaded');
+                                    return;
+                                }
+                                
+                                var cssDiv = document.getElementById('djc-css-output');
+                                var jsonDiv = document.getElementById('djc-json-output');
+                                
+                                var cssEditor, jsonEditor;
+                                
+                                if (cssDiv) {
+                                    cssEditor = CodeMirror(cssDiv, {
+                                        value: cssContent,
+                                        lineNumbers: true,
+                                        mode: 'css',
+                                        theme: 'monokai',
+                                        readOnly: true,
+                                        viewportMargin: Infinity,
+                                        lineWrapping: true,
+                                    });
+                                }
+                                
+                                if (jsonDiv) {
+                                    jsonEditor = CodeMirror(jsonDiv, {
+                                        value: jsonContent,
+                                        lineNumbers: true,
+                                        mode: { name: 'javascript', json: true },
+                                        theme: 'monokai',
+                                        readOnly: true,
+                                        viewportMargin: Infinity,
+                                        lineWrapping: true,
+                                    });
+                                }
+                                
+                                // Copy to clipboard fallback function
+                                function copyToClipboard(text) {
+                                    // Try modern clipboard API first
+                                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                                        return navigator.clipboard.writeText(text);
+                                    }
+                                    
+                                    // Fallback for older browsers or non-HTTPS
+                                    return new Promise(function(resolve, reject) {
+                                        var textarea = document.createElement('textarea');
+                                        textarea.value = text;
+                                        textarea.style.position = 'fixed';
+                                        textarea.style.opacity = '0';
+                                        document.body.appendChild(textarea);
+                                        textarea.focus();
+                                        textarea.select();
+                                        
+                                        try {
+                                            var successful = document.execCommand('copy');
+                                            document.body.removeChild(textarea);
+                                            if (successful) {
+                                                resolve();
+                                            } else {
+                                                reject(new Error('Copy command failed'));
+                                            }
+                                        } catch (err) {
+                                            document.body.removeChild(textarea);
+                                            reject(err);
+                                        }
+                                    });
+                                }
+                                
+                                // Add copy button functionality
+                                document.querySelectorAll('.djc-copy-btn').forEach(function(btn) {
+                                    btn.addEventListener('click', function() {
+                                        var target = this.getAttribute('data-target');
+                                        var content = target === 'css' ? cssContent : jsonContent;
+                                        
+                                        copyToClipboard(content).then(function() {
+                                            var originalText = btn.innerHTML;
+                                            btn.innerHTML = '<span class="dashicons dashicons-yes"></span> Copied!';
+                                            btn.classList.add('djc-copied');
+                                            
+                                            setTimeout(function() {
+                                                btn.innerHTML = originalText;
+                                                btn.classList.remove('djc-copied');
+                                            }, 2000);
+                                        }).catch(function(err) {
+                                            console.error('Failed to copy:', err);
+                                            alert('Failed to copy to clipboard. Please copy manually.');
+                                        });
+                                    });
+                                });
+                            }
+                            
+                            // Initialize when DOM is ready
+                            if (document.readyState === 'loading') {
+                                document.addEventListener('DOMContentLoaded', initCodeMirror);
+                            } else {
+                                initCodeMirror();
+                            }
+                        })();
+                    </script>
+
                 <?php endif; ?>
             <?php endif; ?>
         </div>
