@@ -223,9 +223,14 @@ class ET_Helper_Divi_JSON_Parser {
 
                         $selector = $this->normalize_selector($selectorKey);
                         $decls = $this->normalize_declarations($declString);
-                        if ($decls === '') continue;
+                        if (empty($decls)) continue;
 
-                        $out[] = sprintf("%s %s { %s }", $parent_class, $selector, $decls);
+                        // Format CSS with proper indentation for readability
+                        $out[] = sprintf("%s %s {", $parent_class, $selector);
+                        foreach ($decls as $decl) {
+                            $out[] = "  " . $decl . ";";
+                        }
+                        $out[] = "}";
                     }
 
                     $out[] = ""; // blank line after breakpoint block
@@ -255,7 +260,7 @@ class ET_Helper_Divi_JSON_Parser {
         return $s;
     }
 
-    private function normalize_declarations(string $raw): string {
+    private function normalize_declarations(string $raw): array {
         // Convert newlines to spaces, split by ';'
         $flat = preg_replace('/\s+/', ' ', str_replace(["\r", "\n"], ' ', $raw));
         $parts = array_filter(array_map('trim', explode(';', $flat)));
@@ -267,9 +272,9 @@ class ET_Helper_Divi_JSON_Parser {
             if ($prop === '' || $val === '') continue;
             // basic sanitization for prop names
             $prop = preg_replace('/[^a-zA-Z0-9_-]/', '-', $prop);
-            $decls[] = "{$prop}: {$val};";
+            $decls[] = "{$prop}: {$val}";
         }
-        return implode(' ', $decls);
+        return $decls;
     }
 
     private function djc_unescape(string $raw): string {
@@ -395,6 +400,169 @@ class ET_Helper_Divi_JSON_Parser {
                     <!-- Load CodeMirror CSS -->
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+                    
+                    <!-- Custom Admin Styles -->
+                    <style>
+                        /* Divi JSON Parser Admin Styles */
+                        .djc-form {
+                            margin: 20px 0;
+                            padding: 20px;
+                            background: #fff;
+                            border: 1px solid #ccd0d4;
+                            border-radius: 4px;
+                            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+                        }
+                        
+                        .djc-form input[type="file"] {
+                            padding: 8px;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            background: #fafafa;
+                            font-size: 14px;
+                        }
+                        
+                        .djc-results-container {
+                            margin-top: 25px;
+                        }
+                        
+                        .djc-success-message {
+                            background: #ecf7ed;
+                            border-left: 4px solid #46b450;
+                            padding: 15px 20px;
+                            margin-bottom: 25px;
+                            border-radius: 4px;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        }
+                        
+                        .djc-success-message .dashicons {
+                            color: #46b450;
+                            font-size: 24px;
+                            width: 24px;
+                            height: 24px;
+                        }
+                        
+                        .djc-success-message strong {
+                            color: #23282d;
+                            font-size: 15px;
+                        }
+                        
+                        .djc-result-block {
+                            margin-bottom: 30px;
+                            padding: 25px;
+                            background: #fff;
+                            border: 1px solid #dcdcde;
+                            border-radius: 6px;
+                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+                        }
+                        
+                        .djc-result-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 20px;
+                            padding-bottom: 15px;
+                            border-bottom: 2px solid #f0f0f1;
+                        }
+                        
+                        .djc-result-header h2 {
+                            margin: 0;
+                            font-size: 20px;
+                            color: #1d2327;
+                            font-weight: 600;
+                        }
+                        
+                        .djc-actions {
+                            display: flex;
+                            gap: 10px;
+                            align-items: center;
+                            margin-bottom: 15px;
+                        }
+                        
+                        .djc-result-block .CodeMirror {
+                            border: 1px solid #ccd0d4;
+                            border-radius: 4px;
+                            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+                            font-size: 13px;
+                            line-height: 1.5;
+                            margin-bottom: 15px;
+                            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+                            height: auto;
+                        }
+                        
+                        .djc-result-block .CodeMirror-scroll {
+                            min-height: 200px;
+                            max-height: none;
+                        }
+                        
+                        .djc-result-block .CodeMirror-gutters {
+                            background-color: #23241f;
+                            border-right: 1px solid #3e3d32;
+                        }
+                        
+                        .djc-result-block .CodeMirror-linenumber {
+                            color: #75715e;
+                            padding: 0 8px;
+                        }
+                        
+                        .djc-copy-btn,
+                        .djc-download-btn {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                            padding: 6px 12px;
+                            font-size: 13px;
+                            line-height: 1.4;
+                            border-radius: 3px;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            border: 1px solid #2271b1;
+                            background: #2271b1;
+                            color: #fff;
+                        }
+                        
+                        .djc-copy-btn:hover,
+                        .djc-download-btn:hover {
+                            background: #135e96;
+                            border-color: #135e96;
+                            color: #fff;
+                        }
+                        
+                        .djc-copy-btn .dashicons,
+                        .djc-download-btn .dashicons {
+                            font-size: 16px;
+                            width: 16px;
+                            height: 16px;
+                            margin-top: 2px;
+                        }
+                        
+                        .djc-copy-btn.djc-copied {
+                            background: #46b450;
+                            border-color: #46b450;
+                        }
+                        
+                        @media (max-width: 782px) {
+                            .djc-result-block .CodeMirror {
+                                font-size: 12px;
+                            }
+                            
+                            .djc-result-header {
+                                flex-direction: column;
+                                align-items: flex-start;
+                                gap: 15px;
+                            }
+                            
+                            .djc-actions {
+                                width: 100%;
+                            }
+                            
+                            .djc-copy-btn,
+                            .djc-download-btn {
+                                flex: 1;
+                            }
+                        }
+                    </style>
                     
                     <!-- Load CodeMirror Scripts -->
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
