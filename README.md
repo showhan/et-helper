@@ -18,6 +18,11 @@ This feature helps convert the raw Divi Builder JSON to a prettier format to mak
 
 <img width="1728" height="880" alt="image" src="https://github.com/user-attachments/assets/65d609f7-5cb3-4e6f-badd-d1e82aacf905" />
 
+###
+It has a nested structure added to the code to understand which section/row belongs which modules. It works like a tree now. We can easily understand where a section/row/coluomn/module is started/ended with a tag-format.
+
+<img width="961" height="748" alt="image" src="https://github.com/user-attachments/assets/847b908f-4d70-4f71-a43f-0252e71f0057" />
+
 #### Free-Form CSS Detector
 This feature collects all the Free-Form CSS from the entire layout elements and put them into a single tab in the plugin settings. It is helpful to find out any CSS quickly from that list. It also list out the CSS of responsive devices.
 
