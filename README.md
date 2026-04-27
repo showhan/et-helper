@@ -55,3 +55,6 @@ With this plugin, we can upload SVG images to the website since WordPress doesn'
 
 #### Stats & Others
 Also, it shows the number of sections/rows/columns available on a layout. Additionally, the formatted JSON file can be downloaded. There is a search field that scrolls to the targeted element quickly.
+
+#### Sample File For Testing
+[plugin-test-layout.json.zip](https://github.com/user-attachments/files/27137993/plugin-test-layout.json.zip)
