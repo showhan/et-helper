@@ -1,0 +1,293 @@
+/* =============================================================
+   ET Helper — Reset Database (QA) page styles
+   Loaded alongside divi-json-converter.css for shared card/button base.
+   ============================================================= */
+
+.eth-dbreset-wrap .eth-djc-card { margin-bottom: 20px; }
+
+/* ── Danger card ──────────────────────────────────────────────── */
+.eth-dbreset-card--danger {
+    border-color: #fecaca;
+    background: linear-gradient(180deg, #fef2f2 0%, #ffffff 120px);
+}
+.eth-dbreset-card--danger h2 {
+    color: #991b1b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.eth-dbreset-card--danger h2 .dashicons { color: #dc2626; font-size: 19px; width: 19px; height: 19px; }
+.eth-dbreset-card--danger p { color: #7f1d1d; }
+.eth-dbreset-card--danger code { background: #fee2e2; color: #991b1b; }
+
+/* ── Card intro text ──────────────────────────────────────────── */
+.eth-dbreset-card-intro { margin: 0 0 18px; font-size: 13px; color: #6b7280; line-height: 1.6; }
+
+/* ── Bundled-file list rows ───────────────────────────────────── */
+.eth-dbreset-file-list { display: flex; flex-direction: column; }
+.eth-dbreset-file-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    border-top: 1px solid #f1f1f4;
+}
+.eth-dbreset-file-row:first-child { border-top: none; padding-top: 2px; }
+
+.eth-dbreset-file-info { flex: 1; min-width: 0; }
+.eth-dbreset-file-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #111827;
+    margin-bottom: 6px;
+}
+.eth-dbreset-file-title .dashicons { color: #7c3aed; font-size: 16px; width: 16px; height: 16px; }
+.eth-dbreset-file-label { font-weight: 400; color: #6b7280; }
+.eth-dbreset-file-desc { font-size: 12.5px; color: #6b7280; line-height: 1.6; }
+
+/* Badges */
+.eth-dbreset-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.eth-dbreset-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    padding: 3px 9px 3px 7px;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+.eth-dbreset-badge .dashicons { font-size: 12px; width: 12px; height: 12px; }
+.eth-dbreset-badge--url     { background: #ede9fe; color: #6d28d9; }
+.eth-dbreset-badge--images  { background: #dcfce7; color: #15803d; }
+.eth-dbreset-badge--remote  { background: #dbeafe; color: #1d4ed8; }
+.eth-dbreset-badge--neutral { background: #e5e7eb; color: #374151; }
+
+/* Per-row regenerate actions */
+.eth-dbreset-file-actions {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+.eth-dbreset-mini-check {
+    font-size: 11.5px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.eth-dbreset-mini-check input { accent-color: #7c3aed; }
+
+/* ── Source picker (card-style radios) ───────────────────────── */
+.eth-dbreset-source-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.eth-dbreset-source-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+}
+.eth-dbreset-source-option:hover { border-color: #c4b5fd; background: #faf9ff; }
+.eth-dbreset-source-option:has(input:checked) {
+    border-color: #7c3aed;
+    background: #faf8ff;
+    box-shadow: 0 0 0 1px #7c3aed inset;
+}
+.eth-dbreset-source-option input[type="radio"] { margin-top: 3px; accent-color: #7c3aed; flex-shrink: 0; width: 18px; height: 18px; }
+.eth-dbreset-source-main { display: block; font-weight: 600; font-size: 14px; color: #111827; }
+.eth-dbreset-source-sub  { display: block; font-size: 12px; color: #6b7280; margin-top: 3px; }
+
+/* ── Standalone card-style checkbox toggle (e.g. "also empty uploads") ── */
+.eth-dbreset-toggle-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    margin-bottom: 18px;
+    transition: border-color .15s ease, background .15s ease;
+}
+.eth-dbreset-toggle-option:hover { border-color: #c4b5fd; background: #faf9ff; }
+.eth-dbreset-toggle-option:has(input:checked) {
+    border-color: #7c3aed;
+    background: #faf8ff;
+    box-shadow: 0 0 0 1px #7c3aed inset;
+}
+.eth-dbreset-toggle-option input[type="checkbox"] { margin-top: 3px; accent-color: #7c3aed; flex-shrink: 0; width: 18px; height: 18px; }
+.eth-dbreset-toggle-main { display: block; font-weight: 600; font-size: 14px; color: #111827; }
+.eth-dbreset-toggle-sub  { display: block; font-size: 12px; color: #6b7280; margin-top: 3px; line-height: 1.5; }
+.eth-dbreset-toggle-main code, .eth-dbreset-toggle-sub code { font-size: 11.5px; }
+
+/* ── Custom-upload panel ──────────────────────────────────────── */
+.eth-dbreset-custom-panel {
+    margin: -6px 0 18px;
+    padding: 16px 18px;
+    background: #f9fafb;
+    border: 1px solid #eef0f2;
+    border-radius: 10px;
+}
+.eth-dbreset-file-input-wrap { margin-bottom: 14px; }
+
+/* ── Styled file picker (custom .sql upload) ─────────────────────── */
+.eth-dbreset-file-picker { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.eth-dbreset-file-input-real {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.eth-dbreset-file-picker-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #fff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+.eth-dbreset-file-picker-btn:hover { border-color: #7c3aed; background: #faf9ff; color: #7c3aed; }
+.eth-dbreset-file-picker-btn .dashicons { font-size: 15px; width: 15px; height: 15px; }
+.eth-dbreset-file-picker-name { font-size: 12.5px; color: #9ca3af; font-style: italic; }
+.eth-dbreset-file-picker-name.has-file {
+    color: #111827;
+    font-style: normal;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.eth-dbreset-file-picker-name.has-file::before {
+    content: "";
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #16a34a;
+    flex-shrink: 0;
+}
+
+/* ── Mandatory-rewrite info note ─────────────────────────────────── */
+.eth-dbreset-file-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12.5px;
+    color: #065f46;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 14px;
+    line-height: 1.6;
+}
+.eth-dbreset-file-note .dashicons { color: #16a34a; font-size: 15px; width: 15px; height: 15px; margin-top: 1px; flex-shrink: 0; }
+.eth-dbreset-file-note code { background: #d1fae5; color: #065f46; font-size: 11.5px; }
+
+/* ── Acknowledgement box ──────────────────────────────────────── */
+.eth-dbreset-ack-box {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 6px 0 18px;
+}
+.eth-dbreset-ack-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #7c2d12;
+    cursor: pointer;
+    line-height: 1.5;
+}
+.eth-dbreset-ack-box input[type="checkbox"] { margin-top: 3px; accent-color: #dc2626; flex-shrink: 0; width: 18px; height: 18px; }
+.eth-dbreset-ack-box code { background: #ffedd5; color: #9a3412; font-size: 12px; }
+#eth-dbreset-ack-uploads-note { display: inline; }
+
+/* ── Danger submit button ─────────────────────────────────────── */
+.eth-dbreset-danger-btn {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: #fff !important;
+}
+.eth-dbreset-danger-btn:hover:not(:disabled) {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+}
+.eth-dbreset-danger-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* .eth-djc-btn was designed for <button> elements; the backup Download link is an <a>,
+   which gets an underline from browser defaults that the button styles don't reset. */
+a.eth-djc-btn { text-decoration: none; }
+a.eth-djc-btn:hover, a.eth-djc-btn:focus { text-decoration: none; }
+
+/* ── Database Backups list ───────────────────────────────────────── */
+.eth-dbreset-backup-list { display: flex; flex-direction: column; }
+.eth-dbreset-backup-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    border-top: 1px solid #f1f1f4;
+}
+.eth-dbreset-backup-row:first-child { border-top: none; padding-top: 2px; }
+.eth-dbreset-backup-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.eth-dbreset-backup-filename { font-size: 12px; color: #374151; }
+.eth-dbreset-backup-meta { font-size: 11.5px; color: #9ca3af; white-space: nowrap; }
+.eth-dbreset-no-backups {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b7280;
+    background: #f9fafb;
+    border: 1px solid #eef0f2;
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+.eth-dbreset-no-backups .dashicons { color: #9ca3af; }
+
+/* Actions per row: Download + Delete side by side */
+.eth-dbreset-backup-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.eth-dbreset-delete-one-form { display: inline-flex; }
+.eth-dbreset-delete-one-btn {
+    padding: 9px 11px !important;
+    color: #b91c1c !important;
+    border-color: #fecaca !important;
+}
+.eth-dbreset-delete-one-btn:hover:not(:disabled) {
+    background: #fef2f2 !important;
+    border-color: #fca5a5 !important;
+}
+.eth-dbreset-delete-one-btn .dashicons { font-size: 15px; width: 15px; height: 15px; margin: 0; }
+
+/* Delete All, above the list */
+.eth-dbreset-delete-all-form { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+.eth-dbreset-delete-all-btn { color: #b91c1c !important; border-color: #fecaca !important; }
+.eth-dbreset-delete-all-btn:hover:not(:disabled) {
+    background: #fef2f2 !important;
+    border-color: #fca5a5 !important;
+}

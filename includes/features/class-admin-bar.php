@@ -44,5 +44,13 @@ class ETH_Admin_Bar {
             'href'   => admin_url( 'admin.php?page=' . ETH_Divi_JSON_Converter::MENU_SLUG ),
             'meta'   => [ 'title' => 'Debug D5 Layout' ],
         ] );
+
+        $bar->add_node( [
+            'parent' => 'et-helper',
+            'id'     => 'et-helper-db-reset',
+            'title'  => 'Reset & Import',
+            'href'   => admin_url( 'tools.php?page=' . ETH_DB_Reset::MENU_SLUG ),
+            'meta'   => [ 'title' => 'Reset & Import' ],
+        ] );
     }
 }
