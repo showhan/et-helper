@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ET Helper
  * Description: Developer tools for Elegant Themes / Divi — debug controls, SVG support, the Divi JSON Converter (with CSS/HTML validation), and a QA database reset tool.
- * Version:     1.1
+ * Version:     1.2
  * Author:      Shohan
  * License:     GPL-2.0+
  * Text Domain: et-helper
