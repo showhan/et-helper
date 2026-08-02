@@ -62,6 +62,38 @@ class ETH_SQL_Domain_Rewriter {
         return implode( ";\n", $out ) . ";\n";
     }
 
+    /**
+     * WordPress bakes its table prefix directly into several specific option_name /
+     * meta_key VALUES (not identifiers) — most critically wp_options' "{$prefix}user_roles"
+     * (the role→capabilities definitions) and wp_usermeta's "{$prefix}capabilities" /
+     * "{$prefix}user_level" (which role a given user has). This is so a shared,
+     * multisite-wide install can tell each site's roles and users apart. Renaming
+     * table/column identifiers alone never touches these plain string values, so if
+     * they're missed: a user can still have the "administrator" capability flag, but
+     * WordPress can't find any role definitions to resolve what that flag actually
+     * grants, and denies everything — "Sorry, you are not allowed to access this page."
+     * This does an exact-match replace of just these known key names — nothing else in
+     * the dump is touched, so there's no risk of collateral damage to real content.
+     */
+    public static function rewrite_prefixed_wp_keys( string $sql, string $new_prefix, string $old_prefix = 'wp_' ): string {
+        if ( $new_prefix === $old_prefix ) return $sql;
+
+        $map = [];
+        foreach ( [ 'user_roles', 'capabilities', 'user_level', 'dashboard_quick_press_last_post_id', 'user-settings', 'user-settings-time' ] as $suffix ) {
+            $map[ $old_prefix . $suffix ] = $new_prefix . $suffix;
+        }
+
+        $statements = ETH_SQL_Splitter::split( $sql );
+        $out        = [];
+        foreach ( $statements as $stmt ) {
+            $out[] = self::rewrite_literals_in_statement(
+                $stmt,
+                fn( string $v ) => $map[ $v ] ?? $v
+            );
+        }
+        return implode( ";\n", $out ) . ";\n";
+    }
+
     // ── Public: wp_users credential swap ────────────────────────────────────
 
     /**

@@ -358,6 +358,11 @@ class ETH_DB_Reset {
         global $wpdb;
         if ( $wpdb->prefix !== 'wp_' ) {
             $sql = preg_replace( '/`wp_/', '`' . $wpdb->prefix, $sql );
+            // Table/column renaming above never touches option_name/meta_key VALUES like
+            // 'wp_user_roles' or 'wp_capabilities' — those need fixing too, or the imported
+            // site ends up with no resolvable role definitions and every user gets denied
+            // access entirely. See ETH_SQL_Domain_Rewriter::rewrite_prefixed_wp_keys().
+            $sql = ETH_SQL_Domain_Rewriter::rewrite_prefixed_wp_keys( $sql, $wpdb->prefix );
         }
         return $sql;
     }
@@ -523,7 +528,8 @@ class ETH_DB_Reset {
             $this->redirect_back();
         }
 
-        $source = $_POST['sql_source'] ?? 'fresh';
+        $source          = $_POST['sql_source'] ?? 'fresh';
+        $last_min_fix_msg = '';
 
         if ( $source === 'custom' ) {
             $sql = $this->read_uploaded_sql( 'custom_sql' ); // flashes+redirects internally on failure
@@ -552,6 +558,21 @@ class ETH_DB_Reset {
                 $this->redirect_back();
             }
             $sql = self::apply_prefix( $sql );
+
+            // Final safety check, right before this SQL is actually used: even though bundled
+            // files are kept in sync automatically in the background, re-verify (and if needed
+            // re-fix) the URL and admin credentials one more time here. This is a no-op if
+            // everything's already correct, but guarantees the imported dump can't leave the
+            // site redirecting to the wrong domain or its admin locked out, regardless of
+            // whether the background regen has run yet or somehow fell out of sync.
+            $before_final_check = $sql;
+            $sql = self::maybe_rewrite_domain( $sql );
+            global $wpdb;
+            $sql = ETH_SQL_Domain_Rewriter::rewrite_users_credentials( $sql, $wpdb->prefix, self::current_user_credentials() );
+
+            if ( $sql !== $before_final_check ) {
+                $last_min_fix_msg = ' Note: this dump\'s URL and/or admin credentials were out of sync and were corrected automatically just before import.';
+            }
         }
 
         [ $bk_ok, $bk_filename, $bk_error ] = ETH_DB_Backup::create_full_backup( ETH_DB_Backup::PREFIX_PRERESET );
@@ -560,6 +581,7 @@ class ETH_DB_Reset {
         $msg = $bk_ok
             ? "Backed up current database to {$bk_filename}. "
             : 'Warning: could not back up the current database (' . esc_html( $bk_error ) . '). ';
+        $msg .= $last_min_fix_msg;
 
         if ( ! empty( $_POST['empty_uploads'] ) ) {
             [ $del, $del_fail, $del_errors ] = self::empty_uploads_dir();
