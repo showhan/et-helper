@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-define( 'ETH_VERSION',    '2.4.0' );
+define( 'ETH_VERSION',    '2.1.0' );
 define( 'ETH_FILE',       __FILE__ );
 define( 'ETH_DIR',        plugin_dir_path( __FILE__ ) );
 define( 'ETH_URL',        plugin_dir_url( __FILE__ ) );
