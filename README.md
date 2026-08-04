@@ -66,3 +66,8 @@ This can be used to reset the website database and import with two SQL files. On
 The credentials will remain the same because once the website is initiated, the existing SQL files will automatically be regenerated with the current user's credentials and wit the current website URL.
 
 <img width="1350" height="837" alt="image" src="https://github.com/user-attachments/assets/21891ce2-1196-4923-8e4e-4093f6230385" />
+
+
+## Video Overview
+| [![ET Helper Plugin Overview](https://github.com/user-attachments/assets/ba70b06a-cb14-4533-97b4-0e45e1774b56)](https://www.youtube.com/watch?v=Qs1YeHiNyXs) | [![ET Helper - Reset & Import](https://github.com/user-attachments/assets/fec370d0-42c7-4bf4-8834-f0023c1249fb)](https://www.youtube.com/watch?v=Aks_JrKAtAk) |
+| --- | --- |
