@@ -86,7 +86,7 @@ This feature is vendored in from a teammate's plugin — see [Vendored Features]
 
 ## Vendored Features
 
-Some features are pulled in from a teammate's separate repository via `git subtree`, rather than rewritten from scratch, so we can absorb their updates without manually re-copying code.
+The following two features are pulled from Eduard's separate repository via `git subtree`, rather than rewritten from scratch, so we can absorb their updates without manually re-copying code.
 
 | Feature | Source | Location |
 | --- | --- | --- |
