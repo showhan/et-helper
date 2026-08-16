@@ -93,6 +93,7 @@ The following two features are pulled from Eduard's separate repository via `git
 | Reset Divi Presets & Global Variables | [eduard-un/reset-divi-presets-and-global-variables](https://github.com/eduard-un/reset-divi-presets-and-global-variables) | `includes/vendor/reset-divi-presets/` |
 | Restore Missing TB Templates | [eduard-un/restore-missing-tb-templates](https://github.com/eduard-un/restore-missing-tb-templates) | `includes/vendor/restore-missing-tb-templates/` |
 
+<!--
 **Pulling upstream updates:**
 ```bash
 git fetch reset-divi-presets
@@ -101,5 +102,6 @@ git subtree pull --prefix=includes/vendor/reset-divi-presets reset-divi-presets 
 git fetch restore-missing-tb-templates
 git subtree pull --prefix=includes/vendor/restore-missing-tb-templates restore-missing-tb-templates main --squash
 ```
+-->
 
 Files under `includes/vendor/` should not be hand-edited. Any ET Helper-specific integration (e.g. admin bar/menu placement) lives in an adapter class in `includes/features/` instead (see `class-reset-divi-presets-adapter.php` and `class-restore-tb-templates-adapter.php`), so upstream pulls stay conflict-free.
