@@ -13,6 +13,7 @@ This plugin helps with debugging things through various tools and have some nece
 8. SVG Support.
 9. Stats of the Layout.
 10. Reset and Import Feature with two predefined SQL files.
+11. Reset Divi Presets & Global Variables.
 
 #### Divi JSON Parser & Prettier Format
 This feature helps convert the raw Divi Builder JSON to a prettier format to make the debugging process easier to find out the necessary information quickly.
@@ -68,6 +69,27 @@ The credentials will remain the same because once the website is initiated, the 
 <img width="1350" height="837" alt="image" src="https://github.com/user-attachments/assets/21891ce2-1196-4923-8e4e-4093f6230385" />
 
 
+### Reset Divi Presets & Global Variables
+Adds a "Reset Divi Presets" submenu under the ET Helper admin bar menu to reset Divi 4/5 builder presets (element presets, option group presets) and Divi 5 global variables (colors, fonts, images, links, numbers, text) individually or all at once. Useful for clearing corrupted presets/global variables or getting back to a clean QA baseline.
+
+This feature is vendored in from a teammate's plugin — see [Vendored Features](#vendored-features) below for where it lives and how to pull in upstream updates.
+
 ## Video Overview
 | [![ET Helper Plugin Overview](https://github.com/user-attachments/assets/ba70b06a-cb14-4533-97b4-0e45e1774b56)](https://www.youtube.com/watch?v=Qs1YeHiNyXs) | [![ET Helper - Reset & Import](https://github.com/user-attachments/assets/fec370d0-42c7-4bf4-8834-f0023c1249fb)](https://www.youtube.com/watch?v=Aks_JrKAtAk) |
 | --- | --- |
+
+## Vendored Features
+
+Some features are pulled in from a teammate's separate repository via `git subtree`, rather than rewritten from scratch, so we can absorb their updates without manually re-copying code.
+
+| Feature | Source | Location |
+| --- | --- | --- |
+| Reset Divi Presets & Global Variables | [eduard-un/reset-divi-presets-and-global-variables](https://github.com/eduard-un/reset-divi-presets-and-global-variables) | `includes/vendor/reset-divi-presets/` |
+
+**Pulling upstream updates:**
+```bash
+git fetch reset-divi-presets
+git subtree pull --prefix=includes/vendor/reset-divi-presets reset-divi-presets main --squash
+```
+
+Files under `includes/vendor/` should not be hand-edited. Any ET Helper-specific integration (e.g. admin bar placement) lives in an adapter class in `includes/features/` instead (see `class-reset-divi-presets-adapter.php`), so upstream pulls stay conflict-free.

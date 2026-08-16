@@ -34,6 +34,16 @@ require_once ETH_INC_DIR . 'divi-json-converter/class-block-parser.php';
 require_once ETH_INC_DIR . 'divi-json-converter/class-converter.php';
 require_once ETH_INC_DIR . 'divi-json-converter/class-divi-json-converter.php';
 
+// ── Vendored: Reset Divi Presets & Global Variables ─────────────────────────────
+// Source: github.com/eduard-un/reset-divi-presets-and-global-variables
+// Pulled in via `git subtree` — do not hand-edit the vendored file; ET Helper-
+// specific integration (admin bar placement) lives in the adapter class below.
+// Pull upstream updates with:
+//   git fetch reset-divi-presets
+//   git subtree pull --prefix=includes/vendor/reset-divi-presets reset-divi-presets main --squash
+require_once ETH_INC_DIR . 'vendor/reset-divi-presets/reset-divi-presets.php';
+require_once ETH_INC_DIR . 'features/class-reset-divi-presets-adapter.php';
+
 // ── Activation ────────────────────────────────────────────────────────────────
 // Note: has no effect when this plugin is loaded from mu-plugins/, since WordPress
 // never fires activation hooks for must-use plugins. In that setup, ETH_DB_Reset's
@@ -46,3 +56,6 @@ new ETH_SVG_Support();
 new ETH_DB_Reset();
 new ETH_Admin_Bar();
 new ETH_Divi_JSON_Converter();
+// Note: the vendored Reset_Divi_Presets class self-boots at the bottom of its
+// own file (reset_divi_presets_run()), so it isn't instantiated here.
+new ETH_Reset_Divi_Presets_Adapter();

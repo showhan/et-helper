@@ -268,7 +268,7 @@ CREATE TABLE `wp_users` (
   KEY `user_email` (`user_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 LOCK TABLES `wp_users` WRITE;
-INSERT INTO `wp_users` VALUES (1,'d5','$wp$2y$10$t2H1IPdb1LN17E3t6bvr0ecuaIZvAVmDq9oixUIBmVJ7rzrPMmWhm','d5','showhanahmed@gmail.com','http://d5.test','2025-10-15 12:57:51','',0,'d5');
+INSERT INTO `wp_users` VALUES (1,'d5','$wp$2y$10$dpAfrEPqV5ng/1BFJOIYPe1uVtc1nF.0ML3YHUsWBxqrQBQcM6al2','d5','showhanahmed@gmail.com','http://d5.test','2025-10-15 12:57:51','',0,'d5');
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `wp_wc_admin_note_actions`;
 CREATE TABLE `wp_wc_admin_note_actions` (
