@@ -1,0 +1,209 @@
+.rmtbt-wrap { max-width: 100%; }
+
+.rmtbt-tab-content {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-top: none;
+	padding: 20px;
+}
+
+.rmtbt-toolbar {
+	margin-bottom: 16px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.rmtbt-toolbar-note { color: #646970; font-size: 13px; }
+
+.rmtbt-info-box {
+	background: #f0f6fc;
+	border-left: 4px solid #2271b1;
+	padding: 10px 14px;
+	margin-bottom: 16px;
+	font-size: 13px;
+}
+
+/* Table columns */
+.rmtbt-table .col-title        { width: 18%; }
+.rmtbt-table .col-assigned     { width: 18%; }
+.rmtbt-table .col-parts        { width: 20%; }
+.rmtbt-table .col-date         { width: 14%; }
+.rmtbt-table .col-status       { width: 8%; }
+.rmtbt-table .col-actions      { width: 9%; }
+.rmtbt-table .col-type         { width: 8%; }
+.rmtbt-table .col-actions-wide { width: 30%; }
+.rmtbt-table .col-parent       { width: 18%; }
+.rmtbt-table .col-revcount     { width: 8%; }
+.rmtbt-table .col-revdate      { width: 18%; }
+
+.rmtbt-muted { color: #646970; font-size: 12px; }
+.rmtbt-date  { font-size: 12px; }
+.rmtbt-empty { padding: 20px 0; color: #646970; }
+
+.rmtbt-count {
+	display: inline-block;
+	background: #d63638;
+	color: #fff;
+	border-radius: 10px;
+	padding: 0 6px;
+	font-size: 11px;
+	line-height: 18px;
+	margin-left: 4px;
+	vertical-align: middle;
+}
+
+/* Pills */
+.rmtbt-pill {
+	display: inline-block;
+	border-radius: 3px;
+	padding: 1px 8px;
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 18px;
+}
+.rmtbt-pill-green  { background: #d1fae5; color: #065f46; }
+.rmtbt-pill-red    { background: #fee2e2; color: #991b1b; }
+.rmtbt-pill-blue   { background: #dbeafe; color: #1e40af; }
+.rmtbt-pill-orange { background: #fef3c7; color: #92400e; }
+
+/* Chips */
+.rmtbt-chip        { display: inline-block; border-radius: 3px; padding: 1px 6px; font-size: 11px; line-height: 18px; }
+.rmtbt-chip-green  { background: #d1fae5; color: #065f46; }
+.rmtbt-chip-orange { background: #fef3c7; color: #92400e; }
+.rmtbt-chip-red    { background: #fee2e2; color: #991b1b; }
+
+.rmtbt-tag {
+	display: inline-block;
+	background: #f0f0f1;
+	border-radius: 3px;
+	padding: 2px 7px;
+	font-size: 12px;
+	margin: 2px 2px 2px 0;
+}
+
+.rmtbt-part-row { display: block; font-size: 12px; padding: 3px 6px; border-radius: 3px; margin: 2px 0; }
+.rmtbt-part-deleted { background: #fee2e2; color: #991b1b; }
+.rmtbt-part-ok      { background: #d1fae5; color: #065f46; }
+
+/* Type pills */
+.rmtbt-type-pill { display: inline-block; border-radius: 3px; padding: 2px 8px; font-size: 12px; font-weight: 600; }
+.rmtbt-type-et-header-layout { background: #dbeafe; color: #1e40af; }
+.rmtbt-type-et-body-layout   { background: #d1fae5; color: #065f46; }
+.rmtbt-type-et-footer-layout { background: #ede9fe; color: #5b21b6; }
+
+/* Parts tab section headings */
+.rmtbt-section-heading {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 24px 0 8px;
+	font-size: 14px;
+	font-weight: 600;
+}
+.rmtbt-section-heading:first-of-type { margin-top: 0; }
+.rmtbt-section-count { color: #646970; font-size: 12px; font-weight: 400; }
+
+/* Parts restore form */
+.rmtbt-link-form { display: flex; flex-direction: column; gap: 6px; }
+.rmtbt-select    { max-width: 100%; font-size: 12px; }
+
+/* Revisions */
+.rmtbt-breadcrumb { margin-bottom: 16px; font-size: 13px; }
+.rmtbt-breadcrumb a { text-decoration: none; }
+
+/* Revision timeline navigation bar */
+.rmtbt-rev-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 10px 16px;
+	margin-bottom: 16px;
+}
+.rmtbt-rev-nav-info {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.rmtbt-rev-nav-slider-wrap {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	padding: 0 16px;
+}
+.rmtbt-rev-slider {
+	width: 100%;
+	cursor: pointer;
+}
+.rmtbt-rev-nav-info {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.rmtbt-rev-nav-position {
+	font-weight: 600;
+	font-size: 13px;
+}
+.rmtbt-rev-nav .button[disabled] {
+	opacity: 0.4;
+	cursor: default;
+}
+
+/* Diff view */
+.rmtbt-diff-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #f6f7f7;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 12px 16px;
+	margin-bottom: 16px;
+}
+.rmtbt-diff-meta { display: flex; align-items: center; gap: 12px; }
+.rmtbt-diff-avatar img { border-radius: 50%; }
+
+.rmtbt-diff-legend {
+	margin-bottom: 12px;
+	font-size: 12px;
+	display: flex;
+	gap: 16px;
+}
+.rmtbt-legend-removed { color: #b91c1c; }
+.rmtbt-legend-added   { color: #065f46; }
+
+.rmtbt-diff-wrap { border: 1px solid #c3c4c7; border-radius: 4px; overflow: hidden; }
+
+.rmtbt-diff-field { border-bottom: 1px solid #e2e4e7; }
+.rmtbt-diff-field:last-child { border-bottom: none; }
+
+.rmtbt-diff-field-name {
+	margin: 0;
+	padding: 8px 14px;
+	font-size: 13px;
+	font-weight: 600;
+	background: #f6f7f7;
+	border-bottom: 1px solid #e2e4e7;
+}
+
+.rmtbt-diff-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-family: monospace;
+	font-size: 12px;
+	table-layout: fixed;
+}
+.rmtbt-diff-table td { padding: 2px 6px; vertical-align: top; word-break: break-all; }
+.rmtbt-diff-table col.middle { width: 20px; }
+
+/* Core WP diff colours (in case revisions.css isn't loaded) */
+.diff .diff-deletedline  { background: #fef2f2; }
+.diff .diff-addedline    { background: #f0fdf4; }
+.diff ins                { background: #bbf7d0; text-decoration: none; }
+.diff del                { background: #fecaca; text-decoration: none; }
