@@ -13,8 +13,8 @@ This plugin helps with debugging things through various tools and have some nece
 8. SVG Support.
 9. Stats of the Layout.
 10. Reset and Import Feature with two predefined SQL files.
-11. Reset Divi Presets & Global Variables.
-12. Restore Missing Theme Builder Templates.
+11. Reset Divi Presets & Global Variables. (From Eduard)
+12. Restore Missing Theme Builder Templates. (From Eduard)
 
 #### Divi JSON Parser & Prettier Format
 This feature helps convert the raw Divi Builder JSON to a prettier format to make the debugging process easier to find out the necessary information quickly.
