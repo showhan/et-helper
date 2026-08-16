@@ -14,6 +14,7 @@ This plugin helps with debugging things through various tools and have some nece
 9. Stats of the Layout.
 10. Reset and Import Feature with two predefined SQL files.
 11. Reset Divi Presets & Global Variables.
+12. Restore Missing Theme Builder Templates.
 
 #### Divi JSON Parser & Prettier Format
 This feature helps convert the raw Divi Builder JSON to a prettier format to make the debugging process easier to find out the necessary information quickly.
@@ -74,6 +75,11 @@ Adds a "Reset Divi Presets" submenu under the ET Helper admin bar menu to reset 
 
 This feature is vendored in from a teammate's plugin — see [Vendored Features](#vendored-features) below for where it lives and how to pull in upstream updates.
 
+### Restore Missing Theme Builder Templates
+Adds a "Restore TB Templates" item under the ET Helper admin bar menu. Recovers Divi Theme Builder templates and template parts that were deleted or marked unused before Divi's 7-day auto-trash job removes them for good — with three tabs: **Templates** (restore a deleted template and its linked parts, or restore all at once), **Template Parts** (export any deleted header/body/footer part as a Divi-compatible JSON file for re-import), and **Revisions** (browse and restore any past revision of a template part with a side-by-side diff). Compatible with Divi 4 and Divi 5.
+
+This feature is vendored in from a teammate's plugin — see [Vendored Features](#vendored-features) below for where it lives and how to pull in upstream updates.
+
 ## Video Overview
 | [![ET Helper Plugin Overview](https://github.com/user-attachments/assets/ba70b06a-cb14-4533-97b4-0e45e1774b56)](https://www.youtube.com/watch?v=Qs1YeHiNyXs) | [![ET Helper - Reset & Import](https://github.com/user-attachments/assets/fec370d0-42c7-4bf4-8834-f0023c1249fb)](https://www.youtube.com/watch?v=Aks_JrKAtAk) |
 | --- | --- |
@@ -85,11 +91,15 @@ Some features are pulled in from a teammate's separate repository via `git subtr
 | Feature | Source | Location |
 | --- | --- | --- |
 | Reset Divi Presets & Global Variables | [eduard-un/reset-divi-presets-and-global-variables](https://github.com/eduard-un/reset-divi-presets-and-global-variables) | `includes/vendor/reset-divi-presets/` |
+| Restore Missing TB Templates | [eduard-un/restore-missing-tb-templates](https://github.com/eduard-un/restore-missing-tb-templates) | `includes/vendor/restore-missing-tb-templates/` |
 
 **Pulling upstream updates:**
 ```bash
 git fetch reset-divi-presets
 git subtree pull --prefix=includes/vendor/reset-divi-presets reset-divi-presets main --squash
+
+git fetch restore-missing-tb-templates
+git subtree pull --prefix=includes/vendor/restore-missing-tb-templates restore-missing-tb-templates main --squash
 ```
 
-Files under `includes/vendor/` should not be hand-edited. Any ET Helper-specific integration (e.g. admin bar placement) lives in an adapter class in `includes/features/` instead (see `class-reset-divi-presets-adapter.php`), so upstream pulls stay conflict-free.
+Files under `includes/vendor/` should not be hand-edited. Any ET Helper-specific integration (e.g. admin bar/menu placement) lives in an adapter class in `includes/features/` instead (see `class-reset-divi-presets-adapter.php` and `class-restore-tb-templates-adapter.php`), so upstream pulls stay conflict-free.

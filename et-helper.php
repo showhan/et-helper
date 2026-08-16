@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ET Helper
  * Description: Developer tools for Elegant Themes / Divi — debug controls, SVG support, the Divi JSON Converter (with CSS/HTML validation), and a QA database reset tool.
- * Version:     1.2
+ * Version:     1.3
  * Author:      Shohan
  * License:     GPL-2.0+
  * Text Domain: et-helper
@@ -44,6 +44,16 @@ require_once ETH_INC_DIR . 'divi-json-converter/class-divi-json-converter.php';
 require_once ETH_INC_DIR . 'vendor/reset-divi-presets/reset-divi-presets.php';
 require_once ETH_INC_DIR . 'features/class-reset-divi-presets-adapter.php';
 
+// ── Vendored: Restore Missing TB Templates ──────────────────────────────────────
+// Source: github.com/eduard-un/restore-missing-tb-templates
+// Pulled in via `git subtree` — do not hand-edit the vendored file; ET Helper-
+// specific integration (menu placement) lives in the adapter class below.
+// Pull upstream updates with:
+//   git fetch restore-missing-tb-templates
+//   git subtree pull --prefix=includes/vendor/restore-missing-tb-templates restore-missing-tb-templates main --squash
+require_once ETH_INC_DIR . 'vendor/restore-missing-tb-templates/restore-missing-tb-templates.php';
+require_once ETH_INC_DIR . 'features/class-restore-tb-templates-adapter.php';
+
 // ── Activation ────────────────────────────────────────────────────────────────
 // Note: has no effect when this plugin is loaded from mu-plugins/, since WordPress
 // never fires activation hooks for must-use plugins. In that setup, ETH_DB_Reset's
@@ -59,3 +69,6 @@ new ETH_Divi_JSON_Converter();
 // Note: the vendored Reset_Divi_Presets class self-boots at the bottom of its
 // own file (reset_divi_presets_run()), so it isn't instantiated here.
 new ETH_Reset_Divi_Presets_Adapter();
+// Note: the vendored RMTBT_Admin class self-boots via its own plugins_loaded
+// hook (inside restore-missing-tb-templates.php), so it isn't instantiated here.
+new ETH_Restore_TB_Templates_Adapter();
