@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: ET Helper
- * Description: Developer tools for Elegant Themes / Divi — debug controls, SVG support, the Divi JSON Converter (with CSS/HTML validation), and a QA database reset tool.
- * Version:     1.3
+ * Description: Developer tools for Elegant Themes / Divi — debug controls, SVG support, the Divi JSON Converter (with CSS/HTML validation), a QA database reset tool, and a keyboard command palette.
+ * Version:     1.4
  * Author:      Shohan
  * License:     GPL-2.0+
  * Text Domain: et-helper
@@ -25,6 +25,7 @@ require_once ETH_INC_DIR . 'features/class-sql-splitter.php';
 require_once ETH_INC_DIR . 'features/class-sql-domain-rewriter.php';
 require_once ETH_INC_DIR . 'features/class-db-backup.php';
 require_once ETH_INC_DIR . 'features/class-db-reset.php';
+require_once ETH_INC_DIR . 'features/class-command-palette.php';
 require_once ETH_INC_DIR . 'features/class-admin-bar.php';
 
 // ── Divi JSON Converter ───────────────────────────────────────────────────────
@@ -64,6 +65,7 @@ register_activation_hook( __FILE__, [ 'ETH_DB_Reset', 'on_plugin_activation' ] )
 new ETH_Debug_Tools();
 new ETH_SVG_Support();
 new ETH_DB_Reset();
+new ETH_Command_Palette();
 new ETH_Admin_Bar();
 new ETH_Divi_JSON_Converter();
 // Note: the vendored Reset_Divi_Presets class self-boots at the bottom of its

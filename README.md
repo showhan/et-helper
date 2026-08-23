@@ -15,6 +15,7 @@ This plugin helps with debugging things through various tools and have some nece
 10. Reset and Import Feature with two predefined SQL files.
 11. Reset Divi Presets & Global Variables. (From Eduard)
 12. Restore Missing Theme Builder Templates. (From Eduard)
+13. Command Palette. (Ported from VladET/et-command-palette)
 
 #### Divi JSON Parser & Prettier Format
 This feature helps convert the raw Divi Builder JSON to a prettier format to make the debugging process easier to find out the necessary information quickly.
@@ -73,35 +74,32 @@ The credentials will remain the same because once the website is initiated, the 
 ### Reset Divi Presets & Global Variables
 Adds a "Reset Divi Presets" submenu under the ET Helper admin bar menu to reset Divi 4/5 builder presets (element presets, option group presets) and Divi 5 global variables (colors, fonts, images, links, numbers, text) individually or all at once. Useful for clearing corrupted presets/global variables or getting back to a clean QA baseline.
 
-This feature is vendored in from a Eduard's plugin — see [Vendored Features](#vendored-features) below for where it lives and how to pull in upstream updates.
+This feature is vendored in from a Eduard's plugin — see [Vendored & Ported Features](#vendored--ported-features) below for where it lives and how to pull in upstream updates.
 
 ### Restore Missing Theme Builder Templates
 Adds a "Restore TB Templates" item under the ET Helper admin bar menu. Recovers Divi Theme Builder templates and template parts that were deleted or marked unused before Divi's 7-day auto-trash job removes them for good — with three tabs: **Templates** (restore a deleted template and its linked parts, or restore all at once), **Template Parts** (export any deleted header/body/footer part as a Divi-compatible JSON file for re-import), and **Revisions** (browse and restore any past revision of a template part with a side-by-side diff). Compatible with Divi 4 and Divi 5.
 
-This feature is vendored in from a Eduard's plugin — see [Vendored Features](#vendored-features) below for where it lives and how to pull in upstream updates.
+This feature is vendored in from a Eduard's plugin — see [Vendored & Ported Features](#vendored--ported-features) below for where it lives and how to pull in upstream updates.
+
+### Command Palette
+Adds a keyboard-driven command palette (`Ctrl+Shift+C` / `Cmd+Shift+C` by default, customizable per user) that works on both wp-admin and the frontend. Fuzzy-searches admin menu pages, admin bar links, and Divi pages; offers context actions for the current post/page (Edit with Divi, Edit in WordPress, View); built-in commands (Open…, Edit with Divi…, Edit in WordPress…, Clear Cache, Change Shortcut…); plugin activate/deactivate without leaving the page; pinned and recent actions; and an accent color that follows the Divi Visual Builder color scheme.
+
+Ported into ET Helper's own codebase (`includes/features/class-command-palette.php`, `assets/css/command-palette.css`, `assets/js/command-palette.js`) from [VladET/et-command-palette](https://github.com/VladET/et-command-palette), which originally shipped as a standalone must-use plugin of global `acp_`-prefixed functions. See [Vendored & Ported Features](#vendored--ported-features) below for what changed in the port.
 
 ## Video Overview
 | [![ET Helper Plugin Overview](https://github.com/user-attachments/assets/ba70b06a-cb14-4533-97b4-0e45e1774b56)](https://www.youtube.com/watch?v=Qs1YeHiNyXs) | [![ET Helper - Reset & Import](https://github.com/user-attachments/assets/fec370d0-42c7-4bf4-8834-f0023c1249fb)](https://www.youtube.com/watch?v=Aks_JrKAtAk) |
 | --- | --- |
 
-## Vendored Features
+## Vendored & Ported Features
 
-The following two features are pulled from Eduard's separate repository via `git subtree`, rather than rewritten from scratch, so we can absorb their updates without manually re-copying code.
+Three features started life in other repositories. Reset Divi Presets & Global Variables and Restore Missing TB Templates are pulled in from Eduard's separate repositories via `git subtree`, so we can absorb upstream updates without manually re-copying code. Command Palette came from a single-file, procedurally-styled must-use plugin that doesn't lend itself to `git subtree`, so it was rewritten as a normal ET Helper feature class instead — a one-time port rather than something kept in sync automatically.
 
 | Feature | Source | Location |
 | --- | --- | --- |
 | Reset Divi Presets & Global Variables | [eduard-un/reset-divi-presets-and-global-variables](https://github.com/eduard-un/reset-divi-presets-and-global-variables) | `includes/vendor/reset-divi-presets/` |
 | Restore Missing TB Templates | [eduard-un/restore-missing-tb-templates](https://github.com/eduard-un/restore-missing-tb-templates) | `includes/vendor/restore-missing-tb-templates/` |
-
-<!--
-**Pulling upstream updates:**
-```bash
-git fetch reset-divi-presets
-git subtree pull --prefix=includes/vendor/reset-divi-presets reset-divi-presets main --squash
-
-git fetch restore-missing-tb-templates
-git subtree pull --prefix=includes/vendor/restore-missing-tb-templates restore-missing-tb-templates main --squash
-```
--->
+| Command Palette | [VladET/et-command-palette](https://github.com/VladET/et-command-palette) | `includes/features/class-command-palette.php`, `assets/css/command-palette.css`, `assets/js/command-palette.js` |
 
 Files under `includes/vendor/` should not be hand-edited. Any ET Helper-specific integration (e.g. admin bar/menu placement) lives in an adapter class in `includes/features/` instead (see `class-reset-divi-presets-adapter.php` and `class-restore-tb-templates-adapter.php`), so upstream pulls stay conflict-free.
+
+Command Palette, by contrast, is a straight rewrite living directly in `includes/features/class-command-palette.php` — there's no vendor copy to leave untouched, so pulling in a future upstream update means manually diffing the new `et-command-palette.php` against it rather than a `git subtree pull`.
